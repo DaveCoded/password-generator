@@ -21,7 +21,34 @@ const MainWrapper = styled.main`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: ${({ theme }) => theme.colors.background};
+`;
+
+const H1 = styled.h1`
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.grey};
+    margin-bottom: 31px;
+`;
+
+const TopPanel = styled.div`
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    padding: 19px 32px;
+    background-color: ${({ theme }) => theme.colors.darkGrey};
+`;
+
+const PasswordInput = styled.input`
+    width: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.almostWhite};
+    background-color: transparent;
+    border: none;
+
+    ::placeholder {
+        opacity: 25%;
+    }
 `;
 
 const IndexPage = () => {
@@ -81,9 +108,9 @@ const IndexPage = () => {
         <ThemeProvider theme={theme}>
             <GlobalStyle />
             <MainWrapper>
-                <h1>Password Generator</h1>
-                <div>
-                    <input
+                <H1>Password Generator</H1>
+                <TopPanel>
+                    <PasswordInput
                         type="text"
                         placeholder="P4$5W0rD!"
                         value={state.passwordValue}
@@ -92,7 +119,7 @@ const IndexPage = () => {
                     />
 
                     <CopyButton passwordValue={state.passwordValue} />
-                </div>
+                </TopPanel>
 
                 <div>
                     {/* todo: hide from screen readers */}
