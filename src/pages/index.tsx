@@ -3,7 +3,8 @@ import { GlobalStyle } from '../theme/globalStyle';
 import type { HeadFC } from 'gatsby';
 import { CopyButton } from '../components/CopyButton';
 import { Checkbox } from '../components/Checkbox';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { theme } from '../theme/theme';
 
 const characters = {
     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -14,10 +15,13 @@ const characters = {
 
 const MainWrapper = styled.main`
     display: flex;
+    margin: 0 auto;
     height: 100vh;
+    max-width: 450px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: ${({ theme }) => theme.colors.background};
 `;
 
 const IndexPage = () => {
@@ -74,17 +78,17 @@ const IndexPage = () => {
     }
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <GlobalStyle />
             <MainWrapper>
                 <h1>Password Generator</h1>
                 <div>
                     <input
                         type="text"
+                        placeholder="P4$5W0rD!"
                         value={state.passwordValue}
                         onChange={handleChange}
                         name="passwordValue"
-                        style={{ width: '500px' }}
                     />
 
                     <CopyButton passwordValue={state.passwordValue} />
@@ -133,7 +137,7 @@ const IndexPage = () => {
                     </div>
                 </div>
             </MainWrapper>
-        </>
+        </ThemeProvider>
     );
 };
 
