@@ -5,6 +5,7 @@ import { CopyButton } from '../components/CopyButton';
 import { Checkbox } from '../components/Checkbox';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../theme/theme';
+import { RangeInput } from '../components/RangeInput';
 
 const characters = {
     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -17,7 +18,7 @@ const MainWrapper = styled.main`
     display: flex;
     margin: 0 auto;
     height: 100vh;
-    max-width: 450px;
+    max-width: 540px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -35,6 +36,13 @@ const TopPanel = styled.div`
     gap: 2rem;
     width: 100%;
     padding: 19px 32px;
+    margin-bottom: 1.5rem;
+    background-color: ${({ theme }) => theme.colors.darkGrey};
+`;
+
+const BottomPanel = styled.div`
+    padding: 2rem;
+    width: 100%;
     background-color: ${({ theme }) => theme.colors.darkGrey};
 `;
 
@@ -48,6 +56,54 @@ const PasswordInput = styled.input`
 
     ::placeholder {
         opacity: 25%;
+    }
+
+    :focus-visible {
+        outline-offset: 4px;
+        outline: #a4ffaf auto 1px;
+    }
+`;
+
+const CharacterLength = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const PasswordLength = styled.span`
+    font-size: 2rem;
+    color: ${({ theme }) => theme.colors.neonGreen};
+`;
+
+const RangeWrapper = styled.div`
+    margin-bottom: 2rem;
+`;
+
+const CheckboxWrapper = styled.div`
+    margin-bottom: 2rem;
+`;
+
+const GenerateButton = styled.button`
+    border: none;
+    font-family: inherit;
+    font-size: 18px;
+    height: 65px;
+    width: 100%;
+    background: ${({ theme }) => theme.colors.neonGreen};
+    cursor: pointer;
+
+    :hover {
+        background-color: ${({ theme }) => theme.colors.darkGrey};
+        color: ${({ theme }) => theme.colors.neonGreen};
+        border: 2px solid ${({ theme }) => theme.colors.neonGreen};
+    }
+
+    path {
+        fill: ${({ theme }) => theme.colors.darkGrey};
+    }
+
+    :hover path {
+        fill: ${({ theme }) => theme.colors.neonGreen};
     }
 `;
 
@@ -121,48 +177,48 @@ const IndexPage = () => {
                     <CopyButton passwordValue={state.passwordValue} />
                 </TopPanel>
 
-                <div>
+                <BottomPanel>
                     {/* todo: hide from screen readers */}
-                    <div>{state.passwordLength}</div>
-                    <div>
-                        <input
-                            type="range"
-                            id="range"
-                            name="passwordLength"
-                            value={state.passwordLength}
-                            onChange={handleChange}
-                            max={50}
+                    <RangeWrapper>
+                        <CharacterLength>
+                            <label htmlFor="range">Character Length</label>
+                            <PasswordLength>{state.passwordLength}</PasswordLength>
+                        </CharacterLength>
+                        <RangeInput value={state.passwordLength} handleChange={handleChange} />
+                    </RangeWrapper>
+                    <CheckboxWrapper>
+                        <Checkbox
+                            name="uppercase"
+                            checked={state.uppercase}
+                            label="Include Uppercase Letters"
+                            handleChange={handleChange}
                         />
-                        <label htmlFor="range">Character Length</label>
-                    </div>
-                    <Checkbox
-                        name="uppercase"
-                        checked={state.uppercase}
-                        label="Include Uppercase Letters"
-                        handleChange={handleChange}
-                    />
-                    <Checkbox
-                        name="lowercase"
-                        checked={state.lowercase}
-                        label="Include Lowercase Letters"
-                        handleChange={handleChange}
-                    />
-                    <Checkbox
-                        name="numbers"
-                        checked={state.numbers}
-                        label="Include Numbers"
-                        handleChange={handleChange}
-                    />
-                    <Checkbox
-                        name="symbols"
-                        checked={state.symbols}
-                        label="Include Symbols"
-                        handleChange={handleChange}
-                    />
-                    <div>
-                        <button onClick={onGeneratePassword}>GENERATE</button>
-                    </div>
-                </div>
+                        <Checkbox
+                            name="lowercase"
+                            checked={state.lowercase}
+                            label="Include Lowercase Letters"
+                            handleChange={handleChange}
+                        />
+                        <Checkbox
+                            name="numbers"
+                            checked={state.numbers}
+                            label="Include Numbers"
+                            handleChange={handleChange}
+                        />
+                        <Checkbox
+                            name="symbols"
+                            checked={state.symbols}
+                            label="Include Symbols"
+                            handleChange={handleChange}
+                        />
+                    </CheckboxWrapper>
+                    <GenerateButton onClick={onGeneratePassword}>
+                        GENERATE{' '}
+                        <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m5.106 12 6-6-6-6-1.265 1.265 3.841 3.84H.001v1.79h7.681l-3.841 3.84z" />
+                        </svg>
+                    </GenerateButton>
+                </BottomPanel>
             </MainWrapper>
         </ThemeProvider>
     );
