@@ -3,9 +3,10 @@ import { GlobalStyle } from '../theme/globalStyle';
 import type { HeadFC } from 'gatsby';
 import { CopyButton } from '../components/CopyButton';
 import { Checkbox } from '../components/Checkbox';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { CSSProperties, ThemeProvider } from 'styled-components';
 import { theme } from '../theme/theme';
 import { RangeInput } from '../components/RangeInput';
+import { Strength } from '../components/Strength';
 
 const characters = {
     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -79,10 +80,6 @@ const RangeWrapper = styled.div`
     margin-bottom: 2rem;
 `;
 
-const CheckboxWrapper = styled.div`
-    margin-bottom: 2rem;
-`;
-
 const GenerateButton = styled.button`
     border: none;
     font-family: inherit;
@@ -105,6 +102,10 @@ const GenerateButton = styled.button`
     :hover path {
         fill: ${({ theme }) => theme.colors.neonGreen};
     }
+`;
+
+const Spacer = styled.div<{ height: CSSProperties['height'] }>`
+    height: ${({ height }) => height};
 `;
 
 const IndexPage = () => {
@@ -186,32 +187,38 @@ const IndexPage = () => {
                         </CharacterLength>
                         <RangeInput value={state.passwordLength} handleChange={handleChange} />
                     </RangeWrapper>
-                    <CheckboxWrapper>
+                    <div>
                         <Checkbox
                             name="uppercase"
                             checked={state.uppercase}
                             label="Include Uppercase Letters"
                             handleChange={handleChange}
                         />
+                        <Spacer height="1rem" />
                         <Checkbox
                             name="lowercase"
                             checked={state.lowercase}
                             label="Include Lowercase Letters"
                             handleChange={handleChange}
                         />
+                        <Spacer height="1rem" />
                         <Checkbox
                             name="numbers"
                             checked={state.numbers}
                             label="Include Numbers"
                             handleChange={handleChange}
                         />
+                        <Spacer height="1rem" />
                         <Checkbox
                             name="symbols"
                             checked={state.symbols}
                             label="Include Symbols"
                             handleChange={handleChange}
                         />
-                    </CheckboxWrapper>
+                    </div>
+                    <Spacer height="2rem" />
+                    <Strength password={state.passwordValue} />
+                    <Spacer height="2rem" />
                     <GenerateButton onClick={onGeneratePassword}>
                         GENERATE{' '}
                         <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">

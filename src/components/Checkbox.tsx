@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    margin-bottom: 1rem;
     display: grid;
     grid-template-columns: 1em auto;
     align-items: center;
